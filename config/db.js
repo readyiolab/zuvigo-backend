@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const { dbHost,dbName,dbPass,dbUser } = require("../config/dotenvConfig");
+const { dbHost,dbName,dbPass,dbUser } = require("./dotenvconfg");
 
 class Database {
   constructor() {
