@@ -16,7 +16,13 @@ const subscribeNewsletter = async (req, res) => {
         }
 
         // Check if email already exists
-        const existingSubscriber = await db.select('tbl_newsletter_subscribers', ['email'], { email });
+        const existingSubscriber = await db.selectAll(
+            'tbl_newsletter_subscribers',
+            'email',
+            'email = ?',
+            [email]
+        );
+
         if (existingSubscriber.length > 0) {
             return res.status(400).json({ error: 'Email already subscribed' });
         }
@@ -30,7 +36,7 @@ const subscribeNewsletter = async (req, res) => {
 
         res.status(201).json({
             message: 'Successfully subscribed to newsletter',
-            id: result.insertId
+            id: result.insert_id
         });
     } catch (error) {
         console.error('Error processing subscription:', error);
@@ -54,13 +60,24 @@ const unsubscribeNewsletter = async (req, res) => {
         }
 
         // Check if email exists
-        const existingSubscriber = await db.select('tbl_newsletter_subscribers', ['email'], { email });
+        const existingSubscriber = await db.selectAll(
+            'tbl_newsletter_subscribers',
+            'email',
+            'email = ?',
+            [email]
+        );
+
         if (existingSubscriber.length === 0) {
             return res.status(404).json({ error: 'Email not found' });
         }
 
         // Update subscription status
-        await db.update('tbl_newsletter_subscribers', { is_subscribed: false }, { email });
+        await db.update(
+            'tbl_newsletter_subscribers',
+            { is_subscribed: false },
+            'email = ?',
+            [email]
+        );
 
         res.status(200).json({
             message: 'Successfully unsubscribed from newsletter'
