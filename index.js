@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const allowedOrigins = ['http://localhost:5176', 'https://zuvigo.com', 'https://www.zuvigo.com'];
+const allowedOrigins = ['http://localhost:5176', 'http://localhost:8080', 'https://zuvigo.com', 'https://www.zuvigo.com'];
 
 app.use(cors({
     origin: function (origin, callback) {

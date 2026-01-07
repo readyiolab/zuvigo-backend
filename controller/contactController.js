@@ -3,11 +3,11 @@ const db = require('../config/db');
 
 const submitContactForm = async (req, res) => {
     try {
-        const { name, email, country, profession, message } = req.body;
+        const { name, email, country, service, message } = req.body;
 
         // Validate required fields
-        if (!name || !email || !profession || !message) {
-            return res.status(400).json({ error: 'All required fields must be filled' });
+        if (!name || !email || !message) {
+            return res.status(400).json({ error: 'Name, email, and message are required fields' });
         }
 
         // Validate email format
@@ -16,21 +16,12 @@ const submitContactForm = async (req, res) => {
             return res.status(400).json({ error: 'Invalid email format' });
         }
 
-        // Validate profession
-        const validProfessions = [
-            'general-physician', 'dentist', 'psychologist', 'therapist',
-            'nutritionist', 'wellness-coach', 'chiropractor', 'other'
-        ];
-        if (!validProfessions.includes(profession)) {
-            return res.status(400).json({ error: 'Invalid profession selected' });
-        }
-
-        // Insert form data into database using Database class
+        // Insert form data into database
         const result = await db.insert('tbl_contact_messages', {
             name,
             email,
-            country,
-            profession,
+            country: country || null,
+            service: service || null,
             message
         });
 
