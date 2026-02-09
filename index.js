@@ -2,6 +2,7 @@ const express = require('express');
 const contactRoutes = require('./routes/contactRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
 const bookRoutes = require('./routes/bookRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
@@ -33,6 +34,7 @@ app.use(cors({
 app.use('/api', contactRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api', bookRoutes);
+app.use('/api', chatRoutes);
 
 // Error handling middleware to catch CORS errors gracefully
 app.use((err, req, res, next) => {
